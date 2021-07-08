@@ -158,3 +158,6 @@ cache.db
 .jar
 .gz
 logs/
+scratch??
+scratch2.py
+scratch.py
