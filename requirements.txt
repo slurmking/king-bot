@@ -20,6 +20,6 @@ setproctitle==1.2.1
 six==1.15.0
 soupsieve==2.1
 uritemplate==3.0.1
-urllib3==1.26.2
+urllib3==1.26.5
 yarl==1.5.1
 
