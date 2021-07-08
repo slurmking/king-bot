@@ -157,3 +157,4 @@ cache.db
 .idea
 .jar
 .gz
+logs/

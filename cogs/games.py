@@ -24,24 +24,29 @@ class slots:
 def payout(results, bet):
     if results['Queen'] == 3:
         return bet * 200
+    elif results['Queen'] == 2:
+        return bet * 0
+    elif results['Bee3'] == 2:
+        return bet * 8
+    elif results['Bee3'] == 2:
+        return bet * 4
+    elif results['Bee2'] == 2:
+        return bet * 3
+    elif results['Bee1'] == 2:
+        return bet * 2
     elif results['Honey'] == 1:
         return bet * 0
     elif results['Honey'] == 2:
         return int(round(bet * 1.5))
-    elif results['Bee1'] == 2:
-        return bet * 2
-    elif results['Bee2'] == 2:
-        return bet * 3
-    elif results['Bee3'] == 2:
-        return bet * 4
+
+
+
     elif results['Honey'] == 3:
         return bet * 2
     elif results['Bee1'] == 3:
         return bet * 4
     elif results['Bee2'] == 3:
         return bet * 6
-    elif results['Bee3'] == 2:
-        return bet * 8
 
 
 def slotSpin(bet):
@@ -95,7 +100,6 @@ class games(commands.Cog):
                  'Honey': '<:Honey:862490929629757440>',
                  }
         spin = slotSpin(bet)
-        {icons[spin['reel1']]}
         # "{reel1} {reel2} {reel3}"
         await ctx.send(f" {icons[spin['reel1']]}{icons[spin['reel2']]} {icons[spin['reel3']]}")
         await ctx.send(f"You got {spin['payout']} [TBD]")
