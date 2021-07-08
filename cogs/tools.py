@@ -9,7 +9,6 @@ import discord
 from discord.ext import commands, tasks
 import database
 
-
 class Tools(commands.Cog):
     voiceCheckList = {}
 
@@ -46,6 +45,7 @@ class Tools(commands.Cog):
         time_sleep = (time_sleep.split(":", ))
         hours = int(time_sleep[0]) * 60
         minutes = hours + int(time_sleep[1])
+        logging.info(minutes)
         # Max time 12 hours
         if not minutes > 300:
             database.sleep_timer_set(ctx.author.id, ctx.author.voice.channel.id, int(minutes), ctx.guild.id)
@@ -72,7 +72,9 @@ class Tools(commands.Cog):
     async def userinfo(self, ctx, user="1"):
         if user == "1":
             userid = ctx.author.id
+            logging.info(userid)
             user = await self.bot.fetch_user(userid)
+            logging.info(user)
         else:
             try:
                 userid = int(ctx.message.mentions[0].id)
@@ -84,6 +86,7 @@ class Tools(commands.Cog):
         embed.set_thumbnail(url=user.avatar_url)
         embed.add_field(name='User Creation Date', value=user.created_at)
         await ctx.send(embed=embed)
+        logging.info(f"{userid} {user}")
 
     @commands.command(help="Create a Poll")
     async def poll(self, ctx, *args):
