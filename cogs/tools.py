@@ -4,7 +4,7 @@ import datetime
 import math
 from copy import deepcopy
 from datetime import datetime, timedelta
-
+import logging
 import discord
 from discord.ext import commands, tasks
 import database
@@ -16,7 +16,7 @@ class Tools(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.sleep_check.start()
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
 
     async def cog_check(self, ctx):
         if ctx.channel.type == discord.ChannelType.private:
@@ -37,7 +37,7 @@ class Tools(commands.Cog):
                         if channel_member.id == member.id:
                             await member.edit(voice_channel=None)
                     database.sleep_timer_del(member.id)
-                    print(f'Kicking {member} in {guild} from {channel}')
+                    logging.info(f'Kicking {member} in {guild} from {channel}')
                 except IndexError:
                     pass
 
@@ -46,7 +46,6 @@ class Tools(commands.Cog):
         time_sleep = (time_sleep.split(":", ))
         hours = int(time_sleep[0]) * 60
         minutes = hours + int(time_sleep[1])
-        print(minutes)
         # Max time 12 hours
         if not minutes > 300:
             database.sleep_timer_set(ctx.author.id, ctx.author.voice.channel.id, int(minutes), ctx.guild.id)
@@ -73,9 +72,7 @@ class Tools(commands.Cog):
     async def userinfo(self, ctx, user="1"):
         if user == "1":
             userid = ctx.author.id
-            print(userid)
             user = await self.bot.fetch_user(userid)
-            print(user)
         else:
             try:
                 userid = int(ctx.message.mentions[0].id)
@@ -87,7 +84,6 @@ class Tools(commands.Cog):
         embed.set_thumbnail(url=user.avatar_url)
         embed.add_field(name='User Creation Date', value=user.created_at)
         await ctx.send(embed=embed)
-        print(f"{userid} {user}")
 
     @commands.command(help="Create a Poll")
     async def poll(self, ctx, *args):

@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 from random import randint
-
+import logging
 
 class slots:
     def __init__(self):
@@ -62,8 +62,8 @@ def slotSpin(bet):
     resultsList[f"{reel1.spin()}"] += 1
     resultsList[f"{reel2.spin()}"] += 1
     resultsList[f"{reel3.spin()}"] += 1
-    print(f"{reel1.spin()} - {reel2.spin()} - {reel3.spin()}")
-    print(resultsList)
+    logging.info(f"{reel1.spin()} - {reel2.spin()} - {reel3.spin()}")
+    logging.info(resultsList)
     if reel2.spin() == reel1.spin():
         if reel2.spin() == reel3.spin():
             output = payout(resultsList, bet)
@@ -83,7 +83,7 @@ def slotSpin(bet):
 class games(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
 
     async def cog_check(self, ctx):
         if ctx.channel.type == discord.ChannelType.private:

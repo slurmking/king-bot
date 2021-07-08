@@ -2,7 +2,7 @@
 
 import configparser
 import random
-
+import logging
 import aiohttp
 import discord
 from discord.ext import commands
@@ -14,7 +14,7 @@ config.read('config.ini')
 class Actions(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
 
     async def gif(self, ctx, action, verbs, responses):
         random_gen = random.randint(0, 24)

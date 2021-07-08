@@ -3,12 +3,12 @@
 import aiohttp
 import discord
 from discord.ext import commands
-
+import logging
 
 class Lookup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
 
     @staticmethod
     def mc_escape(string):

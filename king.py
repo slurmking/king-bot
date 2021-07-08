@@ -16,12 +16,24 @@ bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensiti
 
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
-    logger = logging.getLogger('discord')
-    logger.setLevel(logging.DEBUG)
-    handler = logging.FileHandler(filename=f'logs/{datetime.date.today()}.log', encoding='utf-8', mode='w')
-    handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-    logger.addHandler(handler)
 
+    logging.basicConfig(
+        filename=f'logs/{datetime.date.today()}.log',
+        level=logging.DEBUG, 
+        format= '%(asctime)s:%(levelname)s:%(name)s: %(message)s',
+    )
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    # set a format which is simpler for console use
+    formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
+    console.setFormatter(formatter)
+    logging.getLogger("").addHandler(console)
+
+    logging.debug('debug')
+    logging.info('info')
+    logging.warning('warning')
+    logging.error('error')
+    logging.exception('exp')
 
 @bot.event
 async def on_connect():
@@ -31,8 +43,8 @@ async def on_connect():
     for file in listdir("cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
-    print('Cogs Loaded')
-    print('Creating cache')
+    logging.info('Cogs Loaded')
+    logging.info('Creating cache')
     for guild in bot.guilds:
         result = database.load_guild(guild.id)
         try:
@@ -40,24 +52,24 @@ async def on_connect():
                                   % (result['guild_id'], result['prefix'], result['dj_role']))
         except TypeError:
             database.create_guild(guild.id)
-    print('Cache created')
+    logging.info('Cache created')
 
 
 @bot.event
 async def on_ready():
-    print(f'\033[94mStarting {bot.user.display_name} <{bot.user.id}>\033[0m')
-    print('\033[96mBot Online\033[0m')
-    print(f'\033[96mConnected to\033[0m {len(bot.guilds)} \033[96mservers')
+    logging.info(f'\033[94mStarting {bot.user.display_name} <{bot.user.id}>\033[0m')
+    logging.info('\033[96mBot Online\033[0m')
+    logging.info(f'\033[96mConnected to\033[0m {len(bot.guilds)} \033[96mservers')
 
 
 @bot.event
 async def on_command(ctx):
-    print(
+    logging.info(
         f'\033[93m[COMMAND]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}'
         f':{ctx.message.clean_content}')
 # @bot.event
 # async def on_message(message):
-#     print(
+#     logging.info(
 #         f':{message.clean_content}')
 
 
@@ -73,13 +85,13 @@ async def on_guild_join(guild):
 
 #@bot.event
 #async def on_command_error(ctx, error):
-#    print(
+#    logging.info(
 #        f'\033[91m[ERROR]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}\'s' \
 #        f' {ctx.command} command failed because : {error}')
 
 @bot.event
 async def on_shard_connect(shard_id):
-    print(
+    logging.info(
         f'\033[96mshard\033[91m {shard_id}\033[96m started\033[0m')
 
 

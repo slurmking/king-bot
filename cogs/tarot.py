@@ -2,7 +2,7 @@
 import discord
 from discord.ext import commands
 import random
-
+import logging
 Major = [
     {'name': 'The Fool',
      'suit': 'Major',
@@ -339,20 +339,11 @@ Pentacles = [
 ]
 
 
-def show(number,list):
-    if list != Major:
-        number = number - 1
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number+1).zfill(2)}.png")
-        im.show()
-    else:
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number).zfill(2)}.png")
-        im.show()
-    return list[number]
 
 class Tarot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
 
     async def cog_check(self, ctx):
         if ctx.channel.type == discord.ChannelType.private:
