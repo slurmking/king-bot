@@ -28,16 +28,10 @@ if config['bot']['logging'] == 'True':
     formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
     console.setFormatter(formatter)
     logging.getLogger("").addHandler(console)
-
-    logging.debug('debug')
-    logging.info('info')
-    logging.warning('warning')
-    logging.error('error')
-    logging.exception('exp')
-
 @bot.event
 async def on_connect():
     database.cache_clear()
+    logging.warning('BOT IS STARTING')
     await bot.change_presence(
         activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
     for file in listdir("cogs"):
