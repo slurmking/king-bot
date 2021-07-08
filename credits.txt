@@ -3,6 +3,6 @@ Bot by Slurmking
 Gifs from Tenor
 Cats via thecatapi
 Dogs via thedogapi
-Made with Discord.py and Lavalink.py
+Made with Discord.py
 Logo by @ItsAxoladdy
 ```
