@@ -81,6 +81,11 @@ class Actions(commands.Cog):
         responses = ['uhhhh......', 'DAMN SON! Where\'d you find this?', 'Good luck']
         await self.gif(ctx, 'anime-makeout', verbs, responses)
 
+    @fuck.error
+    async def info_error(self, ctx, error):
+        # if isinstance(error, commands.BadArgument):
+        await ctx.send(f'{error}')
+
     @commands.command(help="Pat someone")
     async def pat(self, ctx):
         verbs = ['patts', 'pets']
