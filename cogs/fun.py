@@ -40,7 +40,7 @@ class Fun(commands.Cog):
                   'My sources say no',
                   'Outlook not so good',
                   'Very doubtful']
-        await ctx.send(f"🎱{ctx.author.mention} {answer[random.randint(1, len(answer) - 1)]}")
+        await ctx.reply(f"🎱 {answer[random.randint(1, len(answer) - 1)]}")
 
     @commands.command(help="Generates a random pokemon from https://pokemon.alexonsager.net/",
                       brief="Fuse two random pokemon")
