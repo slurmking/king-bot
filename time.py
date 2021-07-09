@@ -1,6 +1,6 @@
 import sqlite3
 import datetime
-
+import logging
 
 cache = sqlite3.connect('cache.db')
 cache_cursor = cache.cursor()
