@@ -32,8 +32,12 @@ if config['bot']['logging'] == 'True':
 async def on_connect():
     database.cache_clear()
     logging.warning('BOT IS STARTING')
-    await bot.change_presence(
-        activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
+    if config['bot']['activity'] == 'playing':
+        await bot.change_presence(activity=discord.Game(f"{config['bot']['status']}"))
+    elif config['bot']['activity'] == 'watching':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
+    elif config['bot']['activity'] == 'listening':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
     for file in listdir("cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
@@ -121,7 +125,27 @@ async def prefix(ctx, arg):
 
 @bot.command(hidden='true')
 @commands.is_owner()
-async def status(ctx, *arg):
+async def status(ctx, values):
+    values = (ctx.message.content[8:].split('|'))
+    if values[0] == 'playing':
+        await bot.change_presence(activity=discord.Game(name=f"{values[1]}"))
+        config.set('bot', 'activity', 'playing')
+    elif values[0] == 'watching':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f'{values[1]}'))
+        config.set('bot', 'activity', 'watching')
+    elif values[0] == 'listening':
+        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f'{values[1]}'))
+        config.set('bot', 'activity', 'listening')
+    config.set('bot', 'status', values[1])
+
+    with open("config.ini", 'w') as f:
+        config.write(f)
+
+    await ctx.send(values)
+
+@bot.command(hidden='true')
+@commands.is_owner()
+async def activity(ctx, *arg):
     config.set('bot', 'status', ' '.join(arg))
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=' '.join(arg)))
     with open("config.ini", 'w') as f:
@@ -150,6 +174,13 @@ async def unloadcog(ctx, arg):
 @commands.is_owner()
 async def echo(ctx):
     await ctx.send(f"``` \n{ctx.message.content}\n```")
+
+@bot.command(hidden='true')
+@commands.is_owner()
+async def debug(ctx):
+    await ctx.send(f"bug")
+
+
 
 
 
