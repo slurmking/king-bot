@@ -2,7 +2,7 @@
 
 import configparser
 import sqlite3
-
+import logging
 import mysql.connector
 
 config = configparser.ConfigParser()
