@@ -5,4 +5,5 @@ Cats via thecatapi
 Dogs via thedogapi
 Made with Discord.py
 Logo by @ItsAxoladdy
+Tarot Icon made by Freepik from www.flaticon.com
 ```
