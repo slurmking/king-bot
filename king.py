@@ -143,13 +143,6 @@ async def status(ctx, values):
 
     await ctx.send(values)
 
-@bot.command(hidden='true')
-@commands.is_owner()
-async def activity(ctx, *arg):
-    config.set('bot', 'status', ' '.join(arg))
-    await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=' '.join(arg)))
-    with open("config.ini", 'w') as f:
-        config.write(f)
 
 
 @bot.command(hidden='true')
@@ -179,8 +172,21 @@ async def echo(ctx):
 @commands.is_owner()
 async def debug(ctx):
     await ctx.send(f"bug")
-
-
+    embed = discord.Embed(title=f"{config['bot']['activity']} {config['bot']['status']}", color=0x18d561)
+    embed.set_author(name=bot.user.display_name)
+    embed.set_thumbnail(url=bot.user.avatar_url)
+    embed.add_field(name="latency", value=f"{(round(bot.latency * 1000, 3))} ms", inline=True)
+    embed.add_field(name="Shards", value=f"{str(len(bot.shards))}", inline=True)
+    embed.add_field(name="Seen Users", value=f"{str(len(bot.users))}", inline=True)
+    embed.add_field(name="Seen Guilds", value=f"{str(len(bot.guilds))}", inline=True)
+    embed.add_field(name="Seen Emojis", value=f"{str(len(bot.emojis))}", inline=True)
+    # # embed.add_field(name="Guild owner", value=ctx.message.guild.owner.display_name, inline=True)
+    embed.add_field(name="Guild role", value=ctx.message.guild.self_role.name, inline=True)
+    # embed.add_field(name="Guild icon", value=ctx.message.guild.icon_url, inline=True)
+    embed.add_field(name="Guild prefix", value=database.get_prefix(bot,ctx.message), inline=True)
+    embed.add_field(name="Current guild", value=ctx.message.guild.name, inline=True)
+    embed.add_field(name="Guild id", value=str(ctx.message.guild.id), inline=True)
+    await ctx.send(embed=embed)
 
 
 
