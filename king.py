@@ -98,6 +98,8 @@ async def prefixrevert(message):
                 database.update_guild(message.guild.id, 'prefix', '.')
             else:
                 await message.channel.send('You must be an administrator to reset a server\'s prefix')
+        elif 'prefix' in message.content:
+            await message.channel.send(f"The current prefix is ' {database.get_prefix(bot,message)} '")
 
 
 @bot.command(hidden='true')
@@ -118,7 +120,7 @@ async def prefix(ctx, arg):
 
 
 @bot.command(hidden='true')
-@commands.check(commands.is_owner())
+@commands.is_owner()
 async def status(ctx, *arg):
     config.set('bot', 'status', ' '.join(arg))
     await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=' '.join(arg)))
@@ -127,21 +129,28 @@ async def status(ctx, *arg):
 
 
 @bot.command(hidden='true')
-@commands.check(commands.is_owner())
+@commands.is_owner()
 async def reload(ctx, arg):
     bot.reload_extension(f"cogs.{arg}")
 
 
 @bot.command(hidden='true')
-@commands.check(commands.is_owner())
+@commands.is_owner()
 async def loadcog(ctx, arg):
     bot.load_extension(f"cogs.{arg}")
 
 
 @bot.command(hidden='true')
-@commands.check(commands.is_owner())
+@commands.is_owner()
 async def unloadcog(ctx, arg):
     bot.unload_extension(f"cogs.{arg}")
+
+
+@bot.command(hidden='true')
+@commands.is_owner()
+async def echo(ctx):
+    await ctx.send(f"``` \n{ctx.message.content}\n```")
+
 
 
 bot.run(config['bot']['key'])
