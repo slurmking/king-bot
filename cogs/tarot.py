@@ -42,7 +42,7 @@ class Tarot(commands.Cog):
         Deck = (random.choice(Arcana))
         Coin = random.randint(0, 1)
         Card = random.randint(0, len(Deck) -1)
-        folder = f"images/tarot/{Deck[Card]['suit']}/"
+        folder = f"/tarot/{Deck[Card]['suit']}/"
         modifier = 0 
         if Deck[Card]['suit'] != 'Major':
             modifier = 1
@@ -55,10 +55,12 @@ class Tarot(commands.Cog):
             cardDesc = ((Deck[Card]['reversed']))
             cardLoc = (f"{folder}{str(int(Card+modifier)).zfill(2)}-r.png")
 
-        embed = discord.Embed(title=cardName, description=cardDesc)
-        file = discord.File(f"{cardLoc}")
-        embed.set_image(url=f"attachment://{cardLoc}")
-        await ctx.send(embed=embed,file = file)
+        embed = discord.Embed(colour=7750312)
+        embed.set_image(url=f"http://slurmking.com/img/{cardLoc}")
+        embed.set_author(name=cardName, icon_url=f"http://www.slurmking.com/img/tarot/tarot.png")
+        embed.add_field(name="Meaning",value=cardDesc)
+        print(f"http://slurmking.com/img/{cardLoc}")
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(Tarot(bot))
