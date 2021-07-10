@@ -151,8 +151,8 @@ crashlytics-build.properties
 fabric.properties
 
 #specifics
-bot/setup/config.ini
-bot/setup/cache.db
+setup/config.ini
+setup/cache.db
 .log
 .idea
 .jar

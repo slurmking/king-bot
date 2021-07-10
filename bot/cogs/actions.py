@@ -8,7 +8,7 @@ import discord
 from discord.ext import commands
 
 config = configparser.ConfigParser()
-config.read('bot/setup/config.ini')
+config.read('setup/config.ini')
 
 
 class Actions(commands.Cog):

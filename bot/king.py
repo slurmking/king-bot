@@ -11,7 +11,7 @@ from discord.ext import commands
 from req import database
 
 config = configparser.ConfigParser()
-config.read('bot/setup/config.ini')
+config.read('setup/config.ini')
 bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
 
 # bot.remove_command('help')
@@ -109,7 +109,7 @@ async def prefixrevert(message):
 @bot.command(hidden='true')
 @commands.check(commands.guild_only())
 async def credits(ctx):
-    with open("credits.txt", 'r') as f:
+    with open("bot/credits.txt", 'r') as f:
         await ctx.send(f.read())
 
 
@@ -138,7 +138,7 @@ async def status(ctx, values):
         config.set('bot', 'activity', 'listening')
     config.set('bot', 'status', values[1])
 
-    with open("setup/config.ini", 'w') as f:
+    with open("../setup/config.ini", 'w') as f:
         config.write(f)
 
     await ctx.send(values)
