@@ -1,13 +1,12 @@
 #  Copyright (c)Slurmking 2020
 
 import datetime
-import math
-from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime
 import logging
 import discord
 from discord.ext import commands, tasks
-import database
+from bot.req import database
+
 
 class Tools(commands.Cog):
     voiceCheckList = {}

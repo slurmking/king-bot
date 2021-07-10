@@ -8,17 +8,17 @@ from os import listdir
 import discord
 from discord.ext import commands
 
-import database
+from req import database
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('bot/setup/config.ini')
 bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
 
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
 
     logging.basicConfig(
-        filename=f'logs/{datetime.date.today()}.log',
+        filename=f'bot/logs/{datetime.date.today()}.log',
         level=logging.DEBUG, 
         format= '%(asctime)s:%(levelname)s:%(name)s: %(message)s',
     )
@@ -38,7 +38,7 @@ async def on_connect():
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
     elif config['bot']['activity'] == 'listening':
         await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
-    for file in listdir("cogs"):
+    for file in listdir("bot/cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
     logging.info('Cogs Loaded')
@@ -103,7 +103,7 @@ async def prefixrevert(message):
             else:
                 await message.channel.send('You must be an administrator to reset a server\'s prefix')
         elif 'prefix' in message.content:
-            await message.channel.send(f"The current prefix is ' {database.get_prefix(bot,message)} '")
+            await message.channel.send(f"The current prefix is ' {database.get_prefix(bot, message)} '")
 
 
 @bot.command(hidden='true')
@@ -138,7 +138,7 @@ async def status(ctx, values):
         config.set('bot', 'activity', 'listening')
     config.set('bot', 'status', values[1])
 
-    with open("config.ini", 'w') as f:
+    with open("setup/config.ini", 'w') as f:
         config.write(f)
 
     await ctx.send(values)
@@ -183,7 +183,7 @@ async def debug(ctx):
     # # embed.add_field(name="Guild owner", value=ctx.message.guild.owner.display_name, inline=True)
     embed.add_field(name="Guild role", value=ctx.message.guild.self_role.name, inline=True)
     # embed.add_field(name="Guild icon", value=ctx.message.guild.icon_url, inline=True)
-    embed.add_field(name="Guild prefix", value=database.get_prefix(bot,ctx.message), inline=True)
+    embed.add_field(name="Guild prefix", value=database.get_prefix(bot, ctx.message), inline=True)
     embed.add_field(name="Current guild", value=ctx.message.guild.name, inline=True)
     embed.add_field(name="Guild id", value=str(ctx.message.guild.id), inline=True)
     await ctx.send(embed=embed)

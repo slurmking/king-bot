@@ -5,7 +5,7 @@ import random
 import logging
 import json
 
-with open('cogs/dependencies/tarot.json') as f:
+with open('bot/cogs/dependencies/tarot.json') as f:
   tarotJson = json.load(f)
 Major = tarotJson[0]
 Cups = tarotJson[1]

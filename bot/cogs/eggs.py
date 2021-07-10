@@ -34,17 +34,17 @@ class Eggs(commands.Cog):
     @commands.command(hidden=True, aliases=['michelle'])
     async def perry(self, ctx):
         image = []
-        for file in listdir(f"images/{ctx.invoked_with}"):
+        for file in listdir(f"bot/images/{ctx.invoked_with}"):
             if file.endswith(".jpg"):
                 image.append(file)
 
-        await ctx.send(file=discord.File(f'images/{ctx.invoked_with}/{random.choice(image)}'))
+        await ctx.send(file=discord.File(f'bot/images/{ctx.invoked_with}/{random.choice(image)}'))
     @commands.command(hidden=True)
     async def deletedis(self, ctx):
-        await ctx.send(file=discord.File(f'images/etc/deletedis.png'))
+        await ctx.send(file=discord.File(f'bot/images/etc/deletedis.png'))
     @commands.command(hidden=True)
     async def white(self, ctx):
-        await ctx.send(file=discord.File(f'images/etc/white.jpeg'))
+        await ctx.send(file=discord.File(f'bot/images/etc/white.jpeg'))
     @commands.command(hidden=True)
     async def send(self, ctx):
         file = discord.File("https://scontent-den4-1.cdninstagram.com/v/t50.2886-16/208558944_139571471601351_5092174829592019052_n.mp4?_nc_ht=scontent-den4-1.cdninstagram.com&_nc_cat=103&_nc_ohc=UkYO67g7T4wAX_Qk13c&edm=APfKNqwBAAAA&ccb=7-4&oe=60E356E5&oh=bc2c56afbf7039868f1ea8b5576d848c&_nc_sid=74f7ba")

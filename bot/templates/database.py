@@ -6,7 +6,7 @@ import sqlite3
 import mysql.connector
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('setup/config.ini')
 mydb = mysql.connector.connect(
     host=f"{config['mysql']['host']}",
     user=f"{config['mysql']['user']}",

@@ -151,11 +151,11 @@ crashlytics-build.properties
 fabric.properties
 
 #specifics
-config/config.ini
-config/cache.db
+bot/setup/config.ini
+bot/setup/cache.db
 .log
 .idea
 .jar
 .gz
-logs/
+bot/logs/
 scratch/
