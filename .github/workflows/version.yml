@@ -21,4 +21,4 @@ jobs:
           author_name: slurmking
           author_email: ryan@fannon.net
           message: 'updated version'
-          add: '*credits.txt'
+          add: 'bot/credits.txt'
