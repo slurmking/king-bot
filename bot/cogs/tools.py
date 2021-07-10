@@ -5,7 +5,7 @@ from datetime import datetime
 import logging
 import discord
 from discord.ext import commands, tasks
-from bot.req import database
+from req import database
 
 
 class Tools(commands.Cog):
