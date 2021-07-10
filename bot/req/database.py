@@ -2,7 +2,7 @@
 
 import configparser
 import sqlite3
-import logging
+
 import mysql.connector
 
 config = configparser.ConfigParser()
@@ -89,7 +89,6 @@ def cache_clear():
     "sleep_time"	TEXT,
     "guild_id"	TEXT,
     CONSTRAINT "sleep_PK" PRIMARY KEY("user_id"))""")
-
 
 
 def get_prefix(bot, message):

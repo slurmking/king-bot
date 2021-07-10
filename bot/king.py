@@ -1,4 +1,3 @@
-
 #  Copyright (c)Slurmking 2020
 import configparser
 import datetime
@@ -16,11 +15,10 @@ bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensiti
 
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
-
     logging.basicConfig(
         filename=f'bot/logs/{datetime.date.today()}.log',
-        level=logging.DEBUG, 
-        format= '%(asctime)s:%(levelname)s:%(name)s: %(message)s',
+        level=logging.DEBUG,
+        format='%(asctime)s:%(levelname)s:%(name)s: %(message)s',
     )
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
@@ -28,6 +26,8 @@ if config['bot']['logging'] == 'True':
     formatter = logging.Formatter('%(asctime)s : %(levelname)s : %(message)s')
     console.setFormatter(formatter)
     logging.getLogger("").addHandler(console)
+
+
 @bot.event
 async def on_connect():
     database.cache_clear()
@@ -35,9 +35,11 @@ async def on_connect():
     if config['bot']['activity'] == 'playing':
         await bot.change_presence(activity=discord.Game(f"{config['bot']['status']}"))
     elif config['bot']['activity'] == 'watching':
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
+        await bot.change_presence(
+            activity=discord.Activity(type=discord.ActivityType.watching, name=f"{config['bot']['status']}"))
     elif config['bot']['activity'] == 'listening':
-        await bot.change_presence(activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
+        await bot.change_presence(
+            activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
     for file in listdir("bot/cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
@@ -65,6 +67,8 @@ async def on_command(ctx):
     logging.info(
         f'\033[93m[COMMAND]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}'
         f':{ctx.message.clean_content}')
+
+
 # @bot.event
 # async def on_message(message):
 #     logging.info(
@@ -81,8 +85,8 @@ async def on_guild_join(guild):
         database.create_guild(guild.id)
 
 
-#@bot.event
-#async def on_command_error(ctx, error):
+# @bot.event
+# async def on_command_error(ctx, error):
 #    logging.info(
 #        f'\033[91m[ERROR]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}\'s' \
 #        f' {ctx.command} command failed because : {error}')
@@ -144,7 +148,6 @@ async def status(ctx, values):
     await ctx.send(values)
 
 
-
 @bot.command(hidden='true')
 @commands.is_owner()
 async def reload(ctx, arg):
@@ -168,6 +171,7 @@ async def unloadcog(ctx, arg):
 async def echo(ctx):
     await ctx.send(f"``` \n{ctx.message.content}\n```")
 
+
 @bot.command(hidden='true')
 @commands.is_owner()
 async def debug(ctx):
@@ -187,7 +191,6 @@ async def debug(ctx):
     embed.add_field(name="Current guild", value=ctx.message.guild.name, inline=True)
     embed.add_field(name="Guild id", value=str(ctx.message.guild.id), inline=True)
     await ctx.send(embed=embed)
-
 
 
 bot.run(config['bot']['key'])

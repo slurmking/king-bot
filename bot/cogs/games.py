@@ -4,6 +4,7 @@ from discord.ext import commands
 from random import randint
 import logging
 
+
 class slots:
     def __init__(self):
         self.number = randint(0, 999)
@@ -39,8 +40,6 @@ def payout(results, bet):
     elif results['Honey'] == 2:
         return int(round(bet * 1.5))
 
-
-
     elif results['Honey'] == 3:
         return bet * 2
     elif results['Bee1'] == 3:
@@ -49,31 +48,31 @@ def payout(results, bet):
         return bet * 6
 
 
-def slotSpin(bet):
-    resultsList = {'Queen': 0,
-                   'Bee3': 0,
-                   'Bee2': 0,
-                   'Bee1': 0,
-                   'Honey': 0,
-                   }
+def slot_spin(bet):
+    results_list = {'Queen': 0,
+                    'Bee3': 0,
+                    'Bee2': 0,
+                    'Bee1': 0,
+                    'Honey': 0,
+                    }
     reel1 = slots()
     reel2 = slots()
     reel3 = slots()
-    resultsList[f"{reel1.spin()}"] += 1
-    resultsList[f"{reel2.spin()}"] += 1
-    resultsList[f"{reel3.spin()}"] += 1
+    results_list[f"{reel1.spin()}"] += 1
+    results_list[f"{reel2.spin()}"] += 1
+    results_list[f"{reel3.spin()}"] += 1
     logging.info(f"{reel1.spin()} - {reel2.spin()} - {reel3.spin()}")
-    logging.info(resultsList)
+    logging.info(results_list)
     if reel2.spin() == reel1.spin():
         if reel2.spin() == reel3.spin():
-            output = payout(resultsList, bet)
+            output = payout(results_list, bet)
         else:
-            output = payout(resultsList, bet)
-    elif resultsList['Honey'] >= 1:
-        output = payout(resultsList, bet)
+            output = payout(results_list, bet)
+    elif results_list['Honey'] >= 1:
+        output = payout(results_list, bet)
     else:
         output = 0
-    return {'results': resultsList,
+    return {'results': results_list,
             'payout': output,
             'reel1': str(reel1.spin()),
             'reel2': str(reel2.spin()),
@@ -99,7 +98,7 @@ class games(commands.Cog):
                  'Bee3': '<:Bee3:862490932065468416>',
                  'Honey': '<:Honey:862490929629757440>',
                  }
-        spin = slotSpin(bet)
+        spin = slot_spin(bet)
         # "{reel1} {reel2} {reel3}"
         await ctx.send(f" {icons[spin['reel1']]}{icons[spin['reel2']]} {icons[spin['reel3']]}")
         await ctx.send(f"You got {spin['payout']} [TBD]")

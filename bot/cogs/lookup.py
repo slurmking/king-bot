@@ -5,6 +5,7 @@ import discord
 from discord.ext import commands
 import logging
 
+
 class Lookup(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
