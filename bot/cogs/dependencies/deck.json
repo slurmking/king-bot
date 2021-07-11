@@ -1,0 +1,320 @@
+[
+  {
+    "ace of Clubs": {
+      "value": [
+        1,
+        11
+      ],
+      "image": "image"
+    },
+    "2 of Clubs": {
+      "value": [
+        2
+      ],
+      "image": "image"
+    },
+    "3 of Clubs": {
+      "value": [
+        3
+      ],
+      "image": "image"
+    },
+    "4 of Clubs": {
+      "value": [
+        4
+      ],
+      "image": "image"
+    },
+    "5 of Clubs": {
+      "value": [
+        5
+      ],
+      "image": "image"
+    },
+    "6 of Clubs": {
+      "value": [
+        6
+      ],
+      "image": "image"
+    },
+    "7 of Clubs": {
+      "value": [
+        7
+      ],
+      "image": "image"
+    },
+    "8 of Clubs": {
+      "value": [
+        8
+      ],
+      "image": "image"
+    },
+    "9 of Clubs": {
+      "value": [
+        9
+      ],
+      "image": "image"
+    },
+    "10 of Clubs": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Jack of Clubs": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Queen of Clubs": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "King of Clubs": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "ace of Diamonds": {
+      "value": [
+        1,
+        11
+      ],
+      "image": "image"
+    },
+    "2 of Diamonds": {
+      "value": [
+        2
+      ],
+      "image": "image"
+    },
+    "3 of Diamonds": {
+      "value": [
+        3
+      ],
+      "image": "image"
+    },
+    "4 of Diamonds": {
+      "value": [
+        4
+      ],
+      "image": "image"
+    },
+    "5 of Diamonds": {
+      "value": [
+        5
+      ],
+      "image": "image"
+    },
+    "6 of Diamonds": {
+      "value": [
+        6
+      ],
+      "image": "image"
+    },
+    "7 of Diamonds": {
+      "value": [
+        7
+      ],
+      "image": "image"
+    },
+    "8 of Diamonds": {
+      "value": [
+        8
+      ],
+      "image": "image"
+    },
+    "9 of Diamonds": {
+      "value": [
+        9
+      ],
+      "image": "image"
+    },
+    "10 of Diamonds": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Jack of Diamonds": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Queen of Diamonds": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "King of Diamonds": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "ace of Hearts": {
+      "value": [
+        1,
+        11
+      ],
+      "image": "image"
+    },
+    "2 of Hearts": {
+      "value": [
+        2
+      ],
+      "image": "image"
+    },
+    "3 of Hearts": {
+      "value": [
+        3
+      ],
+      "image": "image"
+    },
+    "4 of Hearts": {
+      "value": [
+        4
+      ],
+      "image": "image"
+    },
+    "5 of Hearts": {
+      "value": [
+        5
+      ],
+      "image": "image"
+    },
+    "6 of Hearts": {
+      "value": [
+        6
+      ],
+      "image": "image"
+    },
+    "7 of Hearts": {
+      "value": [
+        7
+      ],
+      "image": "image"
+    },
+    "8 of Hearts": {
+      "value": [
+        8
+      ],
+      "image": "image"
+    },
+    "9 of Hearts": {
+      "value": [
+        9
+      ],
+      "image": "image"
+    },
+    "10 of Hearts": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Jack of Hearts": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Queen of Hearts": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "King of Hearts": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "ace of Spades": {
+      "value": [
+        1,
+        11
+      ],
+      "image": "image"
+    },
+    "2 of Spades": {
+      "value": [
+        2
+      ],
+      "image": "image"
+    },
+    "3 of Spades": {
+      "value": [
+        3
+      ],
+      "image": "image"
+    },
+    "4 of Spades": {
+      "value": [
+        4
+      ],
+      "image": "image"
+    },
+    "5 of Spades": {
+      "value": [
+        5
+      ],
+      "image": "image"
+    },
+    "6 of Spades": {
+      "value": [
+        6
+      ],
+      "image": "image"
+    },
+    "7 of Spades": {
+      "value": [
+        7
+      ],
+      "image": "image"
+    },
+    "8 of Spades": {
+      "value": [
+        8
+      ],
+      "image": "image"
+    },
+    "9 of Spades": {
+      "value": [
+        9
+      ],
+      "image": "image"
+    },
+    "10 of Spades": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Jack of Spades": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "Queen of Spades": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    },
+    "King of Spades": {
+      "value": [
+        10
+      ],
+      "image": "image"
+    }
+  }
+]

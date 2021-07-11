@@ -1,7 +1,5 @@
 #  Copyright (c)Slurmking 2020
 
-import datetime
-from datetime import datetime
 import logging
 import discord
 from discord.ext import commands, tasks
@@ -22,4 +20,4 @@ class COG(commands.Cog):
             return True
 
 def setup(bot):
-    bot.add_cog(Tools(bot))
+    bot.add_cog(COG(bot))

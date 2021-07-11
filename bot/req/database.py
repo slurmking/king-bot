@@ -1,5 +1,4 @@
 #  Copyright (c)Slurmking 2020
-
 import configparser
 import sqlite3
 
@@ -30,6 +29,11 @@ def load_guild(guild_id):
 def database_update(arg):
     mycursor.execute(arg)
     mydb.commit()
+
+def database_fetch(arg):
+    mycursor.execute(arg)
+    myresult = mycursor.fetchone()
+    return myresult
 
 
 def cache_update(arg):
@@ -131,3 +135,18 @@ def sleep_timer_del(user_id):
     cache_cursor.execute("""DELETE FROM sleep WHERE user_id='%s';""" % user_id)
     value = cache_cursor.fetchall()
     cache.commit()
+
+def game_create(user_id, game_id, game):
+    cache_update('''INSERT OR REPLACE INTO games (user_id, game_id, game)
+VALUES('%s','%s','%s');''' % (user_id, game_id, game))
+
+def game_end(game_id):
+    cache_cursor.execute("""DELETE FROM games WHERE game_id='%s';""" % game_id)
+    value = cache_cursor.fetchall()
+    cache.commit()
+
+def game_check(game):
+    cache_cursor.execute("""DELETE FROM games WHERE game_id='%s';""" % game_id)
+    value = cache_cursor.fetchall()
+    return(value)
+

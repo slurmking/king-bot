@@ -14,7 +14,7 @@ mydb = mysql.connector.connect(
     password=f"{config['mysql']['password']}",
     database=f"{config['mysql']['database']}"
 )
-cache = sqlite3.connect('cache.db')
+cache = sqlite3.connect('setup/cache.db')
 cache_cursor = cache.cursor()
 mycursor = mydb.cursor()
 

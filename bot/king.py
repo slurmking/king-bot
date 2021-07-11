@@ -1,8 +1,12 @@
 #  Copyright (c)Slurmking 2020
+import os
+path = os.getcwd()
+print (path)
 import configparser
 import datetime
 import logging
 from os import listdir
+
 
 import discord
 from discord.ext import commands
@@ -152,6 +156,24 @@ async def status(ctx, values):
 @commands.is_owner()
 async def reload(ctx, arg):
     bot.reload_extension(f"cogs.{arg}")
+
+@bot.command(hidden='true')
+@commands.is_owner()
+async def givecredit(ctx, *args):
+    from req import econ
+    await ctx.send(args)
+    await ctx.send(type(args[1]))
+    userid = int(ctx.message.mentions[0].id)
+    econ.update(userid,int(args[1]))
+@bot.command(hidden='true')
+@commands.is_owner()
+async def setcredit(ctx, *args):
+    from req import econ
+    await ctx.send(args)
+    await ctx.send(type(args[1]))
+    userid = int(ctx.message.mentions[0].id)
+    econ.set(userid,int(args[1]))
+
 
 
 @bot.command(hidden='true')
