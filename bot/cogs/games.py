@@ -48,13 +48,13 @@ class games(commands.Cog):
     async def blackjack(self,ctx):
         print(blackjack.gamelist)
         if f'{ctx.author.id}' in blackjack.gamelist:
-            print('in')
             game = blackjack.gamelist[f'{ctx.author.id}']
             await ctx.send(f"{id(game)}")
             return
         else:
             blackjack.gamelist[f'{ctx.author.id}'] = blackjack.game(5,f'{ctx.author.id}')
             game = blackjack.gamelist[f'{ctx.author.id}']
+            game.start()
             await ctx.send(f"{id(game)}")
             await ctx.send(f"{game.dealer_hand},{game.player_hand}\n"
                            f"{game.dealer_score,game.player_score}\n"

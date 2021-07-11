@@ -33,41 +33,64 @@ def game_gen(count):
 
 
 class game:
-    winner = []
-    deck = []
-    dealer_hand = []
-    player_hand = []
-    dealer_score = [0, 0]
-    player_score = [0, 0]
-    player_id = 0
+
+    def __init__(self, count, player_id):
+        self.winner = []
+        self.deck = []
+        self.dealer_hand = []
+        self.player_hand = []
+        self.dealer_score = [0, 0]
+        self.player_score = [0, 0]
+        self.done = False
+        self.player_id = player_id
+        self.deck = game_gen(count)
+        self.count = count
 
     def __del__(self):
-        print("object deleted")
+        print("Destructor called")
+        print(f"killing {id(self)}")
+
     def win_blackjack(self):
+        print('blackjack_check')
         players = [self.player_score, self.dealer_score]
         for player in players:
             if player[0] == 21 or player[1] == 21:
                 print(f'checking {player[0], player[1]}')
                 if player == self.player_score:
-                    self.winner = ['Player', 'Blackjack']
+                    self.winner = ['Player', 'Player Blackjack']
                 else:
-                    self.winner = ['Dealer', 'Blackjack']
+                    self.winner = ['Dealer', 'Dealer Blackjack']
 
     def win_bust(self):
+        print('bust_check')
         players = [self.player_score, self.dealer_score]
         for player in players:
-            if player[0] > 21 or player[1] > 21:
-                print('bust')
+            if player[0] > 21 and player[1] > 21:
                 if player == self.player_score:
-                    self.winner = ['Dealer', 'Bust']
+                    self.winner = ['Dealer', 'Player Bust']
                 else:
-                    self.winner = ['Player', 'Bust']
+                    self.winner = ['Player', 'Dealer Bust']
 
     def win_push(self):
         players = [self.player_score, self.dealer_score]
-        if players[0][0] == players[1][0]:
+        print('push_check')
+        if (players[0][0] == players[1][0] ) or (players[0][1] == players[1][1]):
+            print('push')
             self.winner = ['Draw', 'Push']
 
+    def win_highest(self):
+        players = [self.player_score, self.dealer_score]
+        print('highest_check')
+        if (players[0][0] < players[1][0] and players[1][0] < 21) and (players[1][0] < 21 or players[1][1] < 21):
+            self.winner = ['Dealer', 'Dealer Wins']
+        elif (players[1][0] < players[0][0] and players[0][0] < 21) and (players[0][0] < 21 or players[0][1] < 21):
+            self.winner = ['Player', 'Player Wins']
+        for player in players:
+            if player[0] > 21 and player[1] > 21:
+                if player == self.player_score:
+                    self.winner = ['Dealer', 'Player Bust']
+                else:
+                    self.winner = ['Player', 'Dealer Bust']
 
     def evaluate(self, card):
         return int((blackjack_json[0][card]['value'])[0])
@@ -92,19 +115,34 @@ class game:
         self.deck.pop(0)
         hand.append(card)
         self.evaluate_hand(hand, player, score)
+        self.win_check()
 
     def win_check(self):
-        self.win_blackjack()
-        self.win_bust()
-        if self.winner:
-            print('delete')
+        if len(self.winner) == 2:
+            print('winner called')
+            print(f"{self.dealer_hand},{self.player_hand}")
+            print(self.winner)
+            print(id(self))
             del gamelist[str(self.player_id)]
-            self.__del__()
+            del self
+        elif self.done == True:
+            self.win_push()
+            self.win_blackjack()
+            self.win_bust()
+            self.win_highest()
+        else:
+            self.win_blackjack()
+            self.win_bust()
+
+    def deal(self):
+        random.shuffle(self.deck)
+        for _ in range(2):
+            self.draw_player()
+            self.draw_dealer()
 
     def draw_dealer(self):
         self.draw(self.dealer_hand, 'dealer', self.dealer_score)
         self.win_check()
-        self.__del__()
 
     def draw_player(self):
         self.draw(self.player_hand, 'player', self.player_score)
@@ -112,16 +150,17 @@ class game:
 
     def hit(self):
         self.draw_player()
+        self.win_check()
 
     def stay(self):
+        self.done = True
         while self.dealer_score[1] <= 16:
             self.draw_dealer()
+        self.win_highest()
+        self.win_check()
 
-    def __init__(self, count,player_id):
-        self.player_id = player_id
-        self.deck = game_gen(count)
-        random.shuffle(self.deck)
+
+    def start(self):
         for _ in range(2):
             self.draw_player()
             self.draw_dealer()
-
