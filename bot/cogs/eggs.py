@@ -40,19 +40,19 @@ class Eggs(commands.Cog):
     @commands.command(hidden=True, aliases=['michelle'])
     async def perry(self, ctx):
         image = []
-        for file in listdir(f"bot/images/{ctx.invoked_with}"):
+        for file in listdir(f" images/{ctx.invoked_with}"):
             if file.endswith(".jpg"):
                 image.append(file)
 
-        await ctx.send(file=discord.File(f'bot/images/{ctx.invoked_with}/{random.choice(image)}'))
+        await ctx.send(file=discord.File(f' images/{ctx.invoked_with}/{random.choice(image)}'))
 
     @commands.command(hidden=True)
     async def deletedis(self, ctx):
-        await ctx.send(file=discord.File(f'bot/images/etc/deletedis.png'))
+        await ctx.send(file=discord.File(f' images/etc/deletedis.png'))
 
     @commands.command(hidden=True)
     async def white(self, ctx):
-        await ctx.send(file=discord.File(f'bot/images/etc/white.jpeg'))
+        await ctx.send(file=discord.File(f' images/etc/white.jpeg'))
 
     @commands.command(hidden=True)
     async def send(self, ctx):

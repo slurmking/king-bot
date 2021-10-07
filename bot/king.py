@@ -8,7 +8,6 @@ import discord
 from discord.ext import commands
 
 from req import database
-
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
 bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
@@ -16,7 +15,7 @@ bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensiti
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
-        filename=f'bot/logs/{datetime.date.today()}.log',
+        filename=f'logs/{datetime.date.today()}.log',
         level=logging.DEBUG,
         format='%(asctime)s:%(levelname)s:%(name)s: %(message)s',
     )
@@ -40,7 +39,7 @@ async def on_connect():
     elif config['bot']['activity'] == 'listening':
         await bot.change_presence(
             activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
-    for file in listdir("bot/cogs"):
+    for file in listdir("cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
     logging.info('Cogs Loaded')
@@ -113,7 +112,7 @@ async def prefixrevert(message):
 @bot.command(hidden='true')
 @commands.check(commands.guild_only())
 async def credits(ctx):
-    with open("bot/credits.txt", 'r') as f:
+    with open(" credits.txt", 'r') as f:
         await ctx.send(f.read())
 
 
