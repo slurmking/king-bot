@@ -1,17 +1,18 @@
 #  Copyright (c)Slurmking 2020
 import os
+
 path = os.getcwd()
-print (path)
+print(path)
 import configparser
 import datetime
 import logging
 from os import listdir
 
-
 import discord
 from discord.ext import commands
 
 from req import database
+from req import econ
 
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
@@ -20,7 +21,7 @@ bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensiti
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
-        filename=f'bot/logs/{datetime.date.today()}.log',
+        filename=f'logs/{datetime.date.today()}.log',
         level=logging.DEBUG,
         format='%(asctime)s:%(levelname)s:%(name)s: %(message)s',
     )
@@ -44,7 +45,7 @@ async def on_connect():
     elif config['bot']['activity'] == 'listening':
         await bot.change_presence(
             activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
-    for file in listdir("bot/cogs"):
+    for file in listdir("cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
     logging.info('Cogs Loaded')
@@ -64,6 +65,25 @@ async def on_ready():
     logging.info(f'\033[94mStarting {bot.user.display_name} <{bot.user.id}>\033[0m')
     logging.info('\033[96mBot Online\033[0m')
     logging.info(f'\033[96mConnected to\033[0m {len(bot.guilds)} \033[96mservers')
+
+
+@bot.listen('on_message')
+async def whatever_you_want_to_call_it(message):
+    if not message.author.bot:
+        if database.database_exists('Users', 'user_id', str(message.author.id)):
+
+            xpvalue = database.database_fetch(f"SELECT xp FROM Users WHERE user_id = '{str(message.author.id)}'")
+            levelvalue = database.database_fetch(f"SELECT level FROM Users WHERE user_id = '{str(message.author.id)}'")
+            database.database_update(
+                f"UPDATE `Users` SET `xp` = '{(xpvalue[0]) + 1}' WHERE `Users`.`user_id` = {str(message.author.id)};")
+            if (xpvalue[0] + 1) % 10 == 0:
+                econ.update(message.author.id, 100)
+                await message.reply(
+                    f"Congratulations {message.author.display_name} you are now level {levelvalue[0] + 1}!")
+                database.database_update(
+                    f"UPDATE `Users` SET `level` = '{(levelvalue[0]) + 1}' WHERE `Users`.`user_id` = {str(message.author.id)};")
+        else:
+            await message.channel.send('no xp')
 
 
 @bot.event
@@ -117,7 +137,7 @@ async def prefixrevert(message):
 @bot.command(hidden='true')
 @commands.check(commands.guild_only())
 async def credits(ctx):
-    with open("bot/credits.txt", 'r') as f:
+    with open("credits.txt", 'r') as f:
         await ctx.send(f.read())
 
 
@@ -157,6 +177,7 @@ async def status(ctx, values):
 async def reload(ctx, arg):
     bot.reload_extension(f"cogs.{arg}")
 
+
 @bot.command(hidden='true')
 @commands.is_owner()
 async def givecredit(ctx, *args):
@@ -164,7 +185,9 @@ async def givecredit(ctx, *args):
     await ctx.send(args)
     await ctx.send(type(args[1]))
     userid = int(ctx.message.mentions[0].id)
-    econ.update(userid,int(args[1]))
+    econ.update(userid, int(args[1]))
+
+
 @bot.command(hidden='true')
 @commands.is_owner()
 async def setcredit(ctx, *args):
@@ -172,8 +195,7 @@ async def setcredit(ctx, *args):
     await ctx.send(args)
     await ctx.send(type(args[1]))
     userid = int(ctx.message.mentions[0].id)
-    econ.set(userid,int(args[1]))
-
+    econ.set(userid, int(args[1]))
 
 
 @bot.command(hidden='true')

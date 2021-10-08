@@ -54,6 +54,7 @@ def database_exists(table, column, value):
     mydb.commit()
 
 
+
 def cache_exists(table, column, value):
     mycursor.execute("""SELECT EXISTS(SELECT * FROM %s WHERE %s = %s)""" % (table, column, value))
     value = cache_cursor.fetchone()
@@ -65,6 +66,7 @@ def cache_exists(table, column, value):
     else:
         return None
     cache.commit()
+
 
 
 def cache_dj(guild_id):
@@ -150,3 +152,10 @@ def game_check(game):
     value = cache_cursor.fetchall()
     return(value)
 
+
+def user_register(user_id):
+    database_update("""INSERT INTO `Users` (`user_id`, `level`, `xp`) VALUES ('%s', '1', '0')"""% user_id)
+
+
+    """SELECT * FROM `Users` WHERE `user_id` = 260203024431972353 """
+    return(value)

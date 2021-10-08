@@ -157,5 +157,5 @@ setup/cache.db
 .idea
 .jar
 .gz
-bot/logs/
+logs/
 scratch/
