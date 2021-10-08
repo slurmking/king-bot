@@ -6,7 +6,7 @@ import sqlite3
 import mysql.connector
 
 config = configparser.ConfigParser()
-config.read('bot/setup/config.ini')
+config.read('setup/config.ini')
 mydb = mysql.connector.connect(
     host=f"{config['mysql']['host']}",
     user=f"{config['mysql']['user']}",
@@ -14,7 +14,7 @@ mydb = mysql.connector.connect(
     password=f"{config['mysql']['password']}",
     database=f"{config['mysql']['database']}"
 )
-cache = sqlite3.connect('bot/setup/cache.db')
+cache = sqlite3.connect('setup/cache.db')
 cache_cursor = cache.cursor()
 mycursor = mydb.cursor()
 

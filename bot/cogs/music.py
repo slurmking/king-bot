@@ -18,7 +18,7 @@ from req import database
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 config = configparser.ConfigParser()
-config.read('bot/setup/config.ini')
+config.read('setup/config.ini')
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=config['api']['spotiftyid'],
                                                            client_secret=config['api']['spotifysecret']))
 youtube = googleapiclient.discovery.build('youtube', 'v3', developerKey=config['api']['youtubekey'])

@@ -9,7 +9,7 @@ from discord.ext import commands
 
 from req import database
 config = configparser.ConfigParser()
-config.read('bot/setup/config.ini')
+config.read('setup/config.ini')
 bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
 
 # bot.remove_command('help')
@@ -39,7 +39,7 @@ async def on_connect():
     elif config['bot']['activity'] == 'listening':
         await bot.change_presence(
             activity=discord.Activity(type=discord.ActivityType.listening, name=f"{config['bot']['status']}"))
-    for file in listdir("bot/cogs"):
+    for file in listdir("cogs"):
         if file.endswith(".py"):
             bot.load_extension(f'cogs.{file[:-3]}')
     logging.info('Cogs Loaded')
