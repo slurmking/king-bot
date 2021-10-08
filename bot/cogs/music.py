@@ -18,7 +18,7 @@ from req import database
 
 url_rx = re.compile(r'https?://(?:www\.)?.+')
 config = configparser.ConfigParser()
-config.read('setup/config.ini')
+config.read('bot/setup/config.ini')
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=config['api']['spotiftyid'],
                                                            client_secret=config['api']['spotifysecret']))
 youtube = googleapiclient.discovery.build('youtube', 'v3', developerKey=config['api']['youtubekey'])
@@ -54,31 +54,24 @@ async def loadtracks(request, player, ctx, message):
 
 
 async def youtube_search(query):
+    response_list = []
     query = '+'.join(query)
-    async with aiohttp.ClientSession() as session:
-        async with session.get(f'https://www.youtube.com/results?search_query={query}&sp=EgIQAQ%253D%253D') as response:
 
-            response_list = []
-            html = await response.text()
-            soup = BeautifulSoup(html, 'lxml')
-            for x in soup.find_all('script'):
-                if str(x.string)[:10].startswith('var ytInit'):
-                    response = json.loads(str(x.string)[20:-1])
-                    videos = (
-                        response['contents']['twoColumnSearchResultsRenderer']['primaryContents'][
-                            'sectionListRenderer'][
-                            'contents'])
-                    for index, y in enumerate(videos):
-                        if len(videos[index]['itemSectionRenderer']['contents']) > 3:
-                            for index_1, z in enumerate(videos[index]['itemSectionRenderer']['contents']):
-                                title = (z['videoRenderer']['title']['runs'][0]['text'])
-                                id_youutube_search = (z['videoRenderer']['videoId'])
-                                response_list.append(
-                                    {'title': title,
-                                     'url': f'https://www.youtube.com/watch?v={id_youutube_search}'})
-                            else:
-                                pass
+    request = youtube.search().list(
+        part="snippet",
+        maxResults=25,
+        q=f"{query}"
+    )
+    response = request.execute()
+    for x in range(1,6):
+        print(x)
+        video_id = response['items'][x]['id']['videoId']
+        title = response['items'][x]['snippet']['title']
+        response_list.append({'title': title, 'url': f'https://www.youtube.com/watch?v={video_id}'})
+    print(video_id)
+    print(response['items'][0]['snippet']['title'])
     return response_list
+# response_list.append({'title': title,'url': f'https://www.youtube.com/watch?v={id_youutube_search}'})
 
 
 async def url_convert(arg):
@@ -436,6 +429,7 @@ class music(commands.Cog):
 
     @commands.command(hidden=True)
     async def search(self, ctx, *arg):
+        await youtube_search(arg)
         async with ctx.typing():
             info = await youtube_search(arg)
             results = []
