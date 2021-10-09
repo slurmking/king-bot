@@ -10,7 +10,7 @@ from discord.ext import commands
 from req import database
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
-bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
+bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True,intents = discord.Intents.all())
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
