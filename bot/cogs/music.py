@@ -8,7 +8,7 @@ import discord
 import googleapiclient.discovery
 import lavalink
 import spotipy
-from discord.ext import commands
+from discord.ext import commands, tasks
 from spotipy.oauth2 import SpotifyClientCredentials
 
 from req import database
@@ -49,7 +49,6 @@ async def loadtracks(request, player, ctx, message):
         await message.edit(content=f'{len(songs)} Songs Added')
 
 
-
 async def youtube_search(query):
     response_list = []
     query = '+'.join(query)
@@ -60,14 +59,13 @@ async def youtube_search(query):
         q=f"{query}"
     )
     response = request.execute()
-    for x in range(1,6):
-        print(x)
+    for x in range(1, 6):
         video_id = response['items'][x]['id']['videoId']
         title = response['items'][x]['snippet']['title']
         response_list.append({'title': title, 'url': f'https://www.youtube.com/watch?v={video_id}'})
-    print(video_id)
-    print(response['items'][0]['snippet']['title'])
     return response_list
+
+
 # response_list.append({'title': title,'url': f'https://www.youtube.com/watch?v={id_youutube_search}'})
 
 
@@ -121,6 +119,8 @@ def spotify_album(id_spotify_album):
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.voice_cleanup.start()
+        self.bot_voice_channels = {}
         logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
         if not hasattr(bot, 'lavalink'):  # This ensures the client isn't overwritten during cog reloads.
             bot.lavalink = lavalink.Client(bot.user.id)
@@ -131,7 +131,6 @@ class music(commands.Cog):
             bot.add_listener(bot.lavalink.voice_update_handler, 'on_socket_response')
 
         lavalink.add_event_hook(self.track_hook)
-
     async def cog_before_invoke(self, ctx):
         role_check = database.cache_dj(ctx.guild.id)
         exceptions = ['q', 'dj']
@@ -208,6 +207,29 @@ class music(commands.Cog):
             guild_id = int(event.player.guild_id)
             await self.connect_to(guild_id, None)
 
+    @tasks.loop(seconds=15,minutes=15)
+    async def voice_cleanup(self):
+        logging.info(f"\033[92m[Task]\033[0mvoice cleanup ran")
+        players = self.bot.lavalink.player_manager.players
+        for item in players:
+            if len(players) > 0:
+                for channel in self.bot_voice_channels:
+                    members = await self.bot.fetch_channel(channel)
+                    if len(members.members) < 2:
+                        player = self.bot.lavalink.player_manager.get(item)
+                        await player.stop()
+                        await self.connect_to(item, None)
+                        await player.stop()
+
+
+    @commands.Cog.listener()
+    async def on_voice_state_update(self, member, before, after):
+        if member.id == self.bot.user.id:
+            if before.channel == None:
+                self.bot_voice_channels[member.voice.channel.id] = member.voice.channel.name
+            elif after.channel == None:
+                del self.bot_voice_channels[before.channel.id]
+
     @commands.command(aliases=['p'], brief='plays song', help='Search for song via youtube/spotify url, or search term')
     @commands.cooldown(1, 5, commands.BucketType.user)
     async def play(self, ctx, *arg):
@@ -258,7 +280,6 @@ class music(commands.Cog):
         embed.set_author(name=now_playing.title, url=now_playing.uri)
         embed.description = f"{scrubber}"
         # embed.set_footer(text=f"Added by: {self.bot.get_user(now_playing.requester).display_name}")
-        print(self.bot.get_user(now_playing.requester))
         if now_playing.uri.startswith('https://www.youtube'):
             embed.set_thumbnail(url=f'https://img.youtube.com/vi/{now_playing.identifier}/mqdefault.jpg')
         await ctx.message.delete()
@@ -417,7 +438,6 @@ class music(commands.Cog):
             if not player.is_playing:
                 await player.play()
 
-
     @commands.command(help="Clears song queue")
     async def clear(self, ctx):
         player = self.bot.lavalink.player_manager.get(ctx.guild.id)
@@ -482,14 +502,6 @@ class music(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.check(commands.is_owner())
-    async def managerinfo(self, ctx):
-        node_manager = self.bot.lavalink.node_manager.nodes
-        for node in node_manager:
-            print(node.stats.memory_allocated / 1048576)
-            print(node.stats.memory_used / 1048576)
-
-    @commands.command(hidden=True)
-    @commands.check(commands.is_owner())
     async def dj(self, ctx, arg):
         if arg == 'clear':
             database.update_guild(ctx.guild.id, 'dj_role', None)
@@ -497,7 +509,6 @@ class music(commands.Cog):
         else:
             database.update_guild(ctx.guild.id, 'dj_role', ctx.message.raw_role_mentions[0])
             await ctx.send(f'DJ set to [@{ctx.message.role_mentions[0]}]')
-
 
 def setup(bot):
     bot.add_cog(music(bot))
