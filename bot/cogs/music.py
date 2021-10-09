@@ -2,15 +2,12 @@
 
 import asyncio
 import configparser
-import json
 import re
-
-import aiohttp
+import logging
 import discord
 import googleapiclient.discovery
 import lavalink
 import spotipy
-from bs4 import BeautifulSoup
 from discord.ext import commands
 from spotipy.oauth2 import SpotifyClientCredentials
 
@@ -124,8 +121,7 @@ def spotify_album(id_spotify_album):
 class music(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
-        print(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
+        logging.info(f"\033[92m[COG]\033[0m{self.qualified_name}:loaded")
         if not hasattr(bot, 'lavalink'):  # This ensures the client isn't overwritten during cog reloads.
             bot.lavalink = lavalink.Client(bot.user.id)
             for client in range(1, int(config['lavalink_clients']['count']) + 1):
