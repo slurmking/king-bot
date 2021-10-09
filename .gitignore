@@ -159,3 +159,4 @@ setup/cache.db
 .gz
  logs/
 scratch/
+.tar
