@@ -11,7 +11,6 @@ from req import database
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
 bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
-
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
@@ -117,7 +116,7 @@ async def prefixrevert(message):
 @bot.command(hidden='true')
 @commands.check(commands.guild_only())
 async def credits(ctx):
-    with open(" credits.txt", 'r') as f:
+    with open("credits.txt", 'r') as f:
         await ctx.send(f.read())
 
 
