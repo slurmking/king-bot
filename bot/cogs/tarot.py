@@ -13,17 +13,6 @@ Wands = tarotJson[3]
 Pentacles = tarotJson[4]
 
 
-def show(number, list):
-    if list != Major:
-        number = number - 1
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number + 1).zfill(2)}.png")
-        im.show()
-    else:
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number).zfill(2)}.png")
-        im.show()
-    return list[number]
-
-
 class Tarot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
