@@ -4,7 +4,7 @@ Bot by Slurmking
 Gifs from Tenor
 Cats via thecatapi
 Dogs via thedogapi
-Made with Discord.py
+Made with pycord
 Logo by @ItsAxoladdy
 Tarot Icon made by Freepik from www.flaticon.com
 ```

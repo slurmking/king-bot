@@ -3,7 +3,6 @@ import configparser
 import datetime
 import logging
 from os import listdir
-
 import discord
 from discord.ext import commands
 
