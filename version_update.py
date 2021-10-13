@@ -1,4 +1,4 @@
-a_file = open("credits.txt", "r")
+a_file = open(" credits.txt", "r")
 
 list_of_lines = a_file.readlines()
 
@@ -14,7 +14,7 @@ print(update)
 
 
 
-a_file = open("credits.txt", "w")
+a_file = open(" credits.txt", "w")
 
 a_file.writelines(list_of_lines)
 

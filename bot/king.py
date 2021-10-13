@@ -1,8 +1,4 @@
 #  Copyright (c)Slurmking 2020
-import os
-
-path = os.getcwd()
-print(path)
 import configparser
 import datetime
 import logging
@@ -13,11 +9,9 @@ from discord.ext import commands
 
 from req import database
 from req import econ
-
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
-bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True)
-
+bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True, intents=discord.Intents.all())
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
@@ -66,7 +60,6 @@ async def on_ready():
     logging.info('\033[96mBot Online\033[0m')
     logging.info(f'\033[96mConnected to\033[0m {len(bot.guilds)} \033[96mservers')
 
-
 @bot.listen('on_message')
 async def whatever_you_want_to_call_it(message):
     if not message.author.bot:
@@ -91,6 +84,13 @@ async def on_command(ctx):
     logging.info(
         f'\033[93m[COMMAND]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}'
         f':{ctx.message.clean_content}')
+
+
+@bot.event
+async def on_command_completion(ctx):
+    commands = ['reload', 'unloadcog', 'loadcog']
+    if ctx.command.name in commands:
+        await ctx.send(f"{ctx.command} completed successfully")
 
 
 # @bot.event
@@ -180,26 +180,6 @@ async def reload(ctx, arg):
 
 @bot.command(hidden='true')
 @commands.is_owner()
-async def givecredit(ctx, *args):
-    from req import econ
-    await ctx.send(args)
-    await ctx.send(type(args[1]))
-    userid = int(ctx.message.mentions[0].id)
-    econ.update(userid, int(args[1]))
-
-
-@bot.command(hidden='true')
-@commands.is_owner()
-async def setcredit(ctx, *args):
-    from req import econ
-    await ctx.send(args)
-    await ctx.send(type(args[1]))
-    userid = int(ctx.message.mentions[0].id)
-    econ.set(userid, int(args[1]))
-
-
-@bot.command(hidden='true')
-@commands.is_owner()
 async def loadcog(ctx, arg):
     bot.load_extension(f"cogs.{arg}")
 
@@ -236,5 +216,23 @@ async def debug(ctx):
     embed.add_field(name="Guild id", value=str(ctx.message.guild.id), inline=True)
     await ctx.send(embed=embed)
 
+@bot.command(hidden='true')
+@commands.is_owner()
+async def givecredit(ctx, *args):
+    from req import econ
+    await ctx.send(args)
+    await ctx.send(type(args[1]))
+    userid = int(ctx.message.mentions[0].id)
+    econ.update(userid, int(args[1]))
+
+
+@bot.command(hidden='true')
+@commands.is_owner()
+async def setcredit(ctx, *args):
+    from req import econ
+    await ctx.send(args)
+    await ctx.send(type(args[1]))
+    userid = int(ctx.message.mentions[0].id)
+    econ.set(userid, int(args[1]))
 
 bot.run(config['bot']['key'])

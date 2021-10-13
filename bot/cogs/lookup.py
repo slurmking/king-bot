@@ -60,36 +60,6 @@ class Lookup(commands.Cog):
                          url=response['list'][0]['permalink'])
         await ctx.send(embed=embed)
 
-    @commands.command(help='Get MC server info')
-    async def mcserver(self, ctx, server):
-        server = server.replace(':', '/')
-        icon_url = f'https://api.minetools.eu/favicon/{server}'
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f'https://api.minetools.eu/ping/{server}') as r:
-                if r.status == 200:
-                    js = await r.json(content_type='application/json')
-        motd = js['description']
-        embed = discord.Embed(
-            description=f"{js['version']['name']}\n\n{js['players']['online']}/{js['players']['max']} players online")
-        embed.set_author(name=f"{self.mc_escape(motd)}")
-        embed.set_thumbnail(url=icon_url)
-        await ctx.send(embed=embed)
-
-    @commands.command(help='Get minecraft user info')
-    async def mc(self, ctx, search):
-        async with aiohttp.ClientSession() as session:
-            async with session.get(f'https://api.minetools.eu/uuid/{search}') as r:
-                if r.status == 200:
-                    js = await r.json(content_type='application/json')
-                    mc_id = js['id']
-            async with session.get(f'https://api.minetools.eu/profile/{mc_id}') as r:
-                if r.status == 200:
-                    js = await r.json(content_type='application/json')
-        embed = discord.Embed()
-        embed.set_image(url=f"https://crafatar.com/renders/body/{mc_id}")
-        embed.set_author(name=js['raw']['name'], icon_url=f"https://crafatar.com/avatars/{mc_id}")
-        await ctx.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(Lookup(bot))

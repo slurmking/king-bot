@@ -1,4 +1,5 @@
 #  Copyright (c)Slurmking 2020
+
 import configparser
 import sqlite3
 
@@ -25,15 +26,14 @@ def load_guild(guild_id):
     mydb.commit()
     return guild
 
-
-def database_update(arg):
-    mycursor.execute(arg)
-    mydb.commit()
-
 def database_fetch(arg):
     mycursor.execute(arg)
     myresult = mycursor.fetchone()
     return myresult
+
+def database_update(arg):
+    mycursor.execute(arg)
+    mydb.commit()
 
 
 def cache_update(arg):
@@ -54,7 +54,6 @@ def database_exists(table, column, value):
     mydb.commit()
 
 
-
 def cache_exists(table, column, value):
     mycursor.execute("""SELECT EXISTS(SELECT * FROM %s WHERE %s = %s)""" % (table, column, value))
     value = cache_cursor.fetchone()
@@ -66,7 +65,6 @@ def cache_exists(table, column, value):
     else:
         return None
     cache.commit()
-
 
 
 def cache_dj(guild_id):

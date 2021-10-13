@@ -1,5 +1,5 @@
 ```
-1.0.23
+1.0.22
 Bot by Slurmking
 Gifs from Tenor
 Cats via thecatapi

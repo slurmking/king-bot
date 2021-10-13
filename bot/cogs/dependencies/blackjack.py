@@ -7,7 +7,7 @@ gamelist = {}
 poop = '1234'
 cards = ['ace', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King']
 suits = ['Clubs', 'Diamonds', 'Hearts', 'Spades']
-with open('bot/cogs/dependencies/deck.json') as f:
+with open('cogs/dependencies/deck.json') as f:
     blackjack_json = json.load(f)
 
 

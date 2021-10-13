@@ -4,25 +4,13 @@ from discord.ext import commands
 import random
 import logging
 import json
-
-with open('bot/cogs/dependencies/tarot.json') as f:
+with open('cogs/dependencies/tarot.json') as f:
     tarotJson = json.load(f)
 Major = tarotJson[0]
 Cups = tarotJson[1]
 Swords = tarotJson[2]
 Wands = tarotJson[3]
 Pentacles = tarotJson[4]
-
-
-def show(number, list):
-    if list != Major:
-        number = number - 1
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number + 1).zfill(2)}.png")
-        im.show()
-    else:
-        im = Image.open(f"images/tarot/{list[number]['suit']}/{str(number).zfill(2)}.png")
-        im.show()
-    return list[number]
 
 
 class Tarot(commands.Cog):
