@@ -1,3 +1,4 @@
+[![Publish Docker image](https://github.com/slurmking/king-bot/actions/workflows/docker-push.yml/badge.svg)](https://github.com/slurmking/king-bot/actions/workflows/docker-push.yml)
 # King-Bot
 
 ## Commands
