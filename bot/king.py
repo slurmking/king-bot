@@ -8,9 +8,10 @@ import discord
 from discord.ext import commands
 
 from req import database
+
 config = configparser.ConfigParser()
 config.read('setup/config.ini')
-bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True,intents = discord.Intents.all())
+bot = commands.AutoShardedBot(command_prefix=database.get_prefix, case_insensitive=True, intents=discord.Intents.all())
 # bot.remove_command('help')
 if config['bot']['logging'] == 'True':
     logging.basicConfig(
@@ -66,11 +67,13 @@ async def on_command(ctx):
         f'\033[93m[COMMAND]\033[0m{ctx.message.author.name}#{ctx.message.author.discriminator}'
         f':{ctx.message.clean_content}')
 
+
 @bot.event
 async def on_command_completion(ctx):
-    commands = ['reload','unloadcog','loadcog']
+    commands = ['reload', 'unloadcog', 'loadcog']
     if ctx.command.name in commands:
         await ctx.send(f"{ctx.command} completed successfully")
+
 
 # @bot.event
 # async def on_message(message):
