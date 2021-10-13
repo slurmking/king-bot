@@ -157,6 +157,6 @@ setup/cache.db
 .idea
 .jar
 .gz
- logs/
 scratch/
 .tar
+logs/
