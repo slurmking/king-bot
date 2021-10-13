@@ -75,8 +75,8 @@ class games(commands.Cog):
             game.stay()
             await ctx.send(f"{game.dealer_hand},{game.player_hand}\n"
                            f"{game.dealer_score,game.player_score}\n"
-                           f"{game.winner}")
-
+                           f"{game.winner}")rusrus
+            game.end_game()
     @commands.command()
     async def check(self,ctx):
         await ctx.send(f"{len(blackjack.gamelist)}")

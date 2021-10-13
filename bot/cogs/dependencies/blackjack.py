@@ -50,6 +50,10 @@ class game:
         print("Destructor called")
         print(f"killing {id(self)}")
 
+    def end_game(self):
+        del gamelist[str(self.player_id)]
+        del self
+
     def win_blackjack(self):
         print('blackjack_check')
         players = [self.player_score, self.dealer_score]
@@ -123,8 +127,6 @@ class game:
             print(f"{self.dealer_hand},{self.player_hand}")
             print(self.winner)
             print(id(self))
-            del gamelist[str(self.player_id)]
-            del self
         elif self.done == True:
             self.win_push()
             self.win_blackjack()
@@ -133,6 +135,7 @@ class game:
         else:
             self.win_blackjack()
             self.win_bust()
+
 
     def deal(self):
         random.shuffle(self.deck)
