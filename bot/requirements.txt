@@ -19,7 +19,7 @@ lavalink==3.1.4
 lxml==4.6.3
 multidict==4.7.6
 mysql-connector-python==8.0.22
-protobuf==3.14.0
+protobuf==3.18.3
 py-cord==1.7.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
